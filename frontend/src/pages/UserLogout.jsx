@@ -1,13 +1,14 @@
 import React from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { getApiUrl } from '../config'
 
 export const UserLogout = () => {
 
     const token = localStorage.getItem('token')
     const navigate = useNavigate()
 
-    axios.get(`${import.meta.env.VITE_BASE_URL}/users/logout`, {
+    axios.get(getApiUrl('/users/logout'), {
         headers: {
             Authorization: `Bearer ${token}`
         }

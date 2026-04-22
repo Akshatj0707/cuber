@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { CaptainDataContext } from '../context/CapatainContext'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { getApiUrl } from '../config'
 
 const CaptainSignup = () => {
 
@@ -17,6 +18,7 @@ const CaptainSignup = () => {
   const [ vehiclePlate, setVehiclePlate ] = useState('')
   const [ vehicleCapacity, setVehicleCapacity ] = useState('')
   const [ vehicleType, setVehicleType ] = useState('')
+  const [ error, setError ] = useState('')
 
 
   const { captain, setCaptain } = React.useContext(CaptainDataContext)
@@ -24,6 +26,7 @@ const CaptainSignup = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault()
+    setError('')
     const captainData = {
       fullname: {
         firstname: firstName,
@@ -39,13 +42,21 @@ const CaptainSignup = () => {
       }
     }
 
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData)
+    try {
+      const response = await axios.post(getApiUrl('/captains/register'), captainData)
 
-    if (response.status === 201) {
-      const data = response.data
-      setCaptain(data.captain)
-      localStorage.setItem('token', data.token)
-      navigate('/captain-home')
+      if (response.status === 201) {
+        const data = response.data
+        setCaptain(data.captain)
+        localStorage.setItem('token', data.token)
+        navigate('/captain-home')
+      }
+    } catch (err) {
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError(err.message || 'An error occurred during registration');
+      }
     }
 
     setEmail('')
@@ -66,6 +77,7 @@ const CaptainSignup = () => {
         <form onSubmit={(e) => {
           submitHandler(e)
         }}>
+          {error && <div className='bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 text-sm'>{error}</div>}
 
           <h3 className='text-lg w-full  font-medium mb-2'>What's our Captain's name</h3>
           <div className='flex gap-4 mb-7'>

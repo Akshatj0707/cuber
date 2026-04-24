@@ -6,8 +6,8 @@ import axios from 'axios'
 import { getApiUrl } from '../config'
 
 const UserLogin = () => {
-  const [ email, setEmail ] = useState('')
-  const [ password, setPassword ] = useState('')
+  const [ email, setEmail ] = useState('akshatjain070705@gmail.com')
+  const [ password, setPassword ] = useState('@Akj9801')
   const [ userData, setUserData ] = useState({})
   const [ error, setError ] = useState('')
 
@@ -43,8 +43,8 @@ const UserLogin = () => {
     }
 
 
-    setEmail('')
-    setPassword('')
+    setEmail('akshatjain070705@gmail.com')
+    setPassword('@Akj9801')
   }
 
   return (

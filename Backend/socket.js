@@ -5,9 +5,13 @@ const captainModel = require('./models/captain.model');
 let io;
 
 function initializeSocket(server) {
+    const socketCorsOrigin = process.env.CORS_ORIGIN
+        ? process.env.CORS_ORIGIN.split(',').map((origin) => origin.trim())
+        : '*';
+
     io = socketIo(server, {
         cors: {
-            origin: '*',
+            origin: socketCorsOrigin,
             methods: [ 'GET', 'POST' ]
         }
     });

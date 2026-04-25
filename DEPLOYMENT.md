@@ -29,17 +29,15 @@ Run this once to verify production build works:
 
 The backend serves `frontend/dist` automatically in production mode.
 
-## 3) Deploy (single service approach)
+## 3) Deploy from GitHub on Railway (single service)
 
-Use any Node hosting platform (Railway, Render, Fly.io, VPS, etc.) and deploy from `uber-video/Backend`.
+This repository includes `railway.toml`, so Railway can use repo-level build/start commands directly.
 
-Build command:
-
-- `cd ../frontend && npm install && npm run build && cd ../Backend && npm install`
-
-Start command:
-
-- `npm start`
+1. Create project in Railway from GitHub repo.
+2. Keep root directory as repository root (`uber-video`).
+3. Railway uses:
+   - Build: `cd frontend && npm install && npm run build && cd ../Backend && npm install`
+   - Start: `cd Backend && npm start`
 
 Required environment variables on the platform:
 
@@ -48,6 +46,14 @@ Required environment variables on the platform:
 - `JWT_SECRET`
 - `GOOGLE_MAPS_API`
 - `CORS_ORIGIN` (set to your deployed app URL, comma-separated if multiple origins)
+
+Optional (only if you want explicit frontend envs):
+
+- `VITE_BASE_URL`
+- `VITE_API_URL`
+- `VITE_GOOGLE_MAPS_API_KEY`
+
+Note: if `VITE_BASE_URL`/`VITE_API_URL` are omitted, frontend uses relative API paths, which works for this single-service deployment.
 
 ## 4) Post-deploy checks
 

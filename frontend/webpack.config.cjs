@@ -41,10 +41,11 @@ module.exports = {
       template: "./index.html",
     }),
     new webpack.DefinePlugin({
+      // Default API URLs to relative paths so single-service deploys work
       "import.meta.env.VITE_BASE_URL": JSON.stringify(process.env.VITE_BASE_URL || ""),
       "import.meta.env.VITE_API_URL": JSON.stringify(process.env.VITE_API_URL || ""),
       "import.meta.env.VITE_GOOGLE_MAPS_API_KEY": JSON.stringify(
-        process.env.VITE_GOOGLE_MAPS_API_KEY || ""
+        process.env.VITE_GOOGLE_MAPS_API_KEY || process.env.GOOGLE_MAPS_API || ""
       ),
     }),
   ],

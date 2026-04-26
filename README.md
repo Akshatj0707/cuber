@@ -87,3 +87,14 @@ npm start
 - `.github/workflows/ci.yml` runs frontend build and backend install checks on push/PR.
 - `frontend/public/_redirects` handles client-side routing.
 - `frontend/.env.vercel.example` and `Backend/.env.railway.example` provide deploy-ready env templates.
+
+## Enforce CI before merge
+To block merges unless CI passes, enable branch protection for `main` in GitHub:
+1. Open your repository settings.
+2. Go to Branches -> Add branch protection rule.
+3. Branch name pattern: `main`.
+4. Enable **Require a pull request before merging**.
+5. Enable **Require status checks to pass before merging**.
+6. Select these required checks:
+   - `frontend-build`
+   - `backend-install`

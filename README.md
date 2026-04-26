@@ -43,6 +43,7 @@ Vercel hosts the frontend as a static site. The backend is deployed separately o
 - `JWT_SECRET` = your JWT signing secret
 - `PORT` = `3000` or the host-provided port
 - `CORS_ORIGIN` = your frontend URL(s), for example `https://your-project.vercel.app`
+- `NODE_ENV` = `production`
 
 ### Backend deployment files added
 - `Backend/.env.example`
@@ -83,5 +84,6 @@ npm start
 ## Notes
 - `frontend/vercel.json` is configured for `frontend` deployment.
 - `railway.toml` is configured for backend deployment on Railway.
+- `.github/workflows/ci.yml` runs frontend build and backend install checks on push/PR.
 - `frontend/public/_redirects` handles client-side routing.
 - `frontend/.env.vercel.example` and `Backend/.env.railway.example` provide deploy-ready env templates.

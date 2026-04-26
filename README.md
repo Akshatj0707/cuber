@@ -98,3 +98,28 @@ To block merges unless CI passes, enable branch protection for `main` in GitHub:
 6. Select these required checks:
    - `frontend-build`
    - `backend-install`
+
+## Go Live checklist
+1. Deploy backend on Railway from `Backend/`.
+2. Set backend variables from `Backend/.env.railway.example`.
+3. Confirm backend health endpoint returns 200 at `/health`.
+4. Deploy frontend on Vercel from `frontend/`.
+5. Set `VITE_BASE_URL` in Vercel to your Railway backend URL.
+6. Open the live app and test login, map load, and ride flow end-to-end.
+
+## Custom domain setup
+### Vercel (frontend domain)
+1. In Vercel project settings, open Domains and add your domain.
+2. Configure DNS records as shown by Vercel.
+3. After domain is active, update backend `CORS_ORIGIN` to include your custom frontend origin.
+
+### Railway (backend domain)
+1. In Railway service settings, open Networking and generate a public domain.
+2. If using a custom API domain, point DNS to Railway target.
+3. Update Vercel `VITE_BASE_URL` to the final backend domain.
+
+## Rollback plan
+1. In Vercel, open Deployments and promote the previous successful deployment.
+2. In Railway, redeploy a previously successful deployment from the Deployments tab.
+3. If config-related, restore previous environment variables and redeploy.
+4. Verify `/health` and core app flow after rollback.

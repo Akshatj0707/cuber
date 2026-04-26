@@ -1,4 +1,6 @@
-const API_BASE_URL = import.meta.env.VITE_BASE_URL || 'https://cuber-backend.onrender.com';
+const rawBaseUrl =
+  import.meta.env.VITE_BASE_URL || (import.meta.env.MODE === 'development' ? 'http://localhost:3000' : '');
+const API_BASE_URL = rawBaseUrl.replace(/\/+$/, '');
 
 export function getApiUrl(path) {
   if (!API_BASE_URL) {

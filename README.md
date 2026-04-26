@@ -99,27 +99,30 @@ To block merges unless CI passes, enable branch protection for `main` in GitHub:
    - `frontend-build`
    - `backend-install`
 
-## Go Live checklist
-1. Deploy backend on Railway from `Backend/`.
-2. Set backend variables from `Backend/.env.railway.example`.
-3. Confirm backend health endpoint returns 200 at `/health`.
-4. Deploy frontend on Vercel from `frontend/`.
-5. Set `VITE_BASE_URL` in Vercel to your Railway backend URL.
-6. Open the live app and test login, map load, and ride flow end-to-end.
+## Go live checklist
+- Verify Railway service is healthy at `GET /health`.
+- Confirm `CORS_ORIGIN` in Railway exactly matches your Vercel domain.
+- Confirm `VITE_BASE_URL` in Vercel points to your Railway backend URL.
+- Open your Vercel site and test sign up, login, map loading, and ride flow.
+- Check browser console and Railway logs for runtime errors.
+- Keep `main` protected and merge only when CI checks are green.
 
 ## Custom domain setup
-### Vercel (frontend domain)
-1. In Vercel project settings, open Domains and add your domain.
-2. Configure DNS records as shown by Vercel.
-3. After domain is active, update backend `CORS_ORIGIN` to include your custom frontend origin.
+### Vercel frontend domain
+1. In Vercel project settings, open Domains.
+2. Add your domain (for example `app.yourdomain.com`).
+3. Add the required DNS records in your domain provider.
+4. Wait for SSL to become active.
 
-### Railway (backend domain)
-1. In Railway service settings, open Networking and generate a public domain.
-2. If using a custom API domain, point DNS to Railway target.
-3. Update Vercel `VITE_BASE_URL` to the final backend domain.
+### Railway backend domain
+1. In Railway service settings, open Networking/Domains.
+2. Add your API domain (for example `api.yourdomain.com`).
+3. Add required DNS records and wait for SSL.
+4. Update Vercel `VITE_BASE_URL` to this custom API domain.
+5. Update Railway `CORS_ORIGIN` to your custom frontend domain.
 
 ## Rollback plan
-1. In Vercel, open Deployments and promote the previous successful deployment.
-2. In Railway, redeploy a previously successful deployment from the Deployments tab.
-3. If config-related, restore previous environment variables and redeploy.
-4. Verify `/health` and core app flow after rollback.
+- **Frontend rollback:** In Vercel deployments, promote the previous successful deployment.
+- **Backend rollback:** In Railway, redeploy the previous successful deployment.
+- **Config rollback:** Revert the last bad commit in GitHub and redeploy both services.
+- **Safety check after rollback:** Verify `GET /health`, then test login and booking flow from UI.
